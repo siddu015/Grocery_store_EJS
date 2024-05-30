@@ -20,19 +20,22 @@
     <label for="customerPhone">Phone Number:</label>
     <input type="tel" id="customerPhone" name="customerPhone" pattern="[0-9]{10}" required><br><br>
 
-    <table>
+    <!-- Table to display products -->
+    <table id="productsTable">
         <thead>
         <tr>
             <th>Product</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody id="itemsInOrder">
-        <tr class="product-item">
+        <!-- Initial product row (hidden by default) -->
+        <tr class="product-item" style="display: none;">
             <td>
-                <select name="product_id" class="form-control cart-product">
+                <select name="product_id[]" class="form-control cart-product">
                     <option value="">-- Select Product --</option>
                     <% products.forEach(product => { %>
                         <option value="<%= product.product_id %>" data-price="<%= product.price_per_unit %>"><%= product.name %></option>
@@ -40,20 +43,28 @@
                 </select>
             </td>
             <td>
-                <input name="product_price" class="product-price form-control" value="" min="0" readonly>
+                <input name="product_price[]" class="product-price form-control" value="" min="0" readonly>
             </td>
             <td>
-                <input name="quantity" type="number" min="1" class="form-control product-qty" value="1" required>
+                <input name="quantity[]" type="number" min="1" class="form-control product-qty" value="1" required>
             </td>
             <td>
-                <input name="total" type="number" class="product-total form-control" value="0.0" readonly>
+                <input name="total[]" type="number" class="product-total form-control" value="0.0" readonly>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger delete-product">Delete</button>
             </td>
         </tr>
         </tbody>
     </table>
 
     <br>
+    <button class="btn btn-primary" type="button" id="addProduct">Add More</button>
     <button class="btn btn-primary" type="submit" id="saveOrder">Save Order</button>
+
+    <br><br>
+    <label for="totalCost">Total Cost:</label>
+    <input type="number" id="totalCost" name="totalCost" class="form-control" value="0.0" readonly>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
