@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <h1>Manage Products</h1>
+
+    <!-- Add New Product Button -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add New Product</button>
+
+    <!-- Include Add Product Modal -->
+    <%- include('addProductModal') %>
+
+    <!-- Table to display products -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Unit of Measurement</th>
+            <th>Price per Unit</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% products.forEach(product => { %>
+            <tr>
+                <td><%= product.name %></td>
+                <td><%= product.uom_id == 1 ? 'each' : 'kg' %></td>
+                <td>₹<%= product.price_per_unit %></td>
+                <td>
+                    <!-- Edit Button (Trigger Edit Modal) -->
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#editProductModal-<%= product.product_id %>">Edit</button>
+                    <!-- Include Edit Product Modal with product -->
+                    <%- include('editProductModal', { product: product }) %>
+
+                </td>
+                <td>
+                    <!-- Delete Button (Trigger Confirmation Modal) -->
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal-<%= product.product_id %>">Delete</button>
+                    <!-- Include Delete Product Modal with product -->
+                    <%- include('deleteProductModal', { product: product }) %>
+                </td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Include Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

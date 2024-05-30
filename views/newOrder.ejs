@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Order</title>
+</head>
+<body>
+<h2>New Order</h2>
+
+<form method="POST" action="/">
+    <label for="customerName">Customer Name:</label>
+    <input type="text" id="customerName" name="customerName" required><br><br>
+
+    <label for="customerEmail">Email:</label>
+    <input type="email" id="customerEmail" name="customerEmail" required><br><br>
+
+    <label for="customerPhone">Phone Number:</label>
+    <input type="tel" id="customerPhone" name="customerPhone" pattern="[0-9]{10}" required><br><br>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody id="itemsInOrder">
+        <tr class="product-item">
+            <td>
+                <select name="product_id" class="form-control cart-product">
+                    <option value="">-- Select Product --</option>
+                    <% products.forEach(product => { %>
+                        <option value="<%= product.product_id %>" data-price="<%= product.price_per_unit %>"><%= product.name %></option>
+                    <% }); %>
+                </select>
+            </td>
+            <td>
+                <input name="product_price" class="product-price form-control" value="" min="0" readonly>
+            </td>
+            <td>
+                <input name="quantity" type="number" min="1" class="form-control product-qty" value="1" required>
+            </td>
+            <td>
+                <input name="total" type="number" class="product-total form-control" value="0.0" readonly>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <button class="btn btn-primary" type="submit" id="saveOrder">Save Order</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="custom/order.js"></script>
+</body>
+</html>
