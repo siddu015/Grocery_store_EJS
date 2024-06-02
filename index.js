@@ -4,6 +4,8 @@ const port = 9600;
 const path = require("path");
 const methodOverride = require('method-override');
 const mysql = require('mysql2');
+const moment = require('moment');
+
 
 const connection = mysql.createConnection({
     host: '127.0.0.1', // Force use of IPv4
@@ -36,7 +38,7 @@ app.get("/", (req, res) => {
             totalCost += order.total;
         });
 
-        res.render("index.ejs", { orders: result, totalCost });
+        res.render("index.ejs", { orders: result, totalCost, moment });
     });
 });
 
