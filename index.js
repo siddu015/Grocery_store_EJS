@@ -200,6 +200,34 @@ app.post('/', (req, res) => {
 });
 
 
+// Customer Details
+app.get("/customer/:id", (req, res) => {
+    const customerId = req.params.id;
+    const customerQuery = `SELECT * FROM customers WHERE customer_id = ?`;
+    const ordersQuery = `SELECT * FROM orders WHERE customer_id = ?`;
+
+    connection.query(customerQuery, [customerId], (err, customerResult) => {
+        if (err) {
+            console.log(err);
+            return res.send("Error fetching customer details");
+        }
+
+        if (customerResult.length === 0) {
+            return res.send("Customer not found");
+        }
+
+        connection.query(ordersQuery, [customerId], (err, ordersResult) => {
+            if (err) {
+                console.log(err);
+                return res.send("Error fetching customer orders");
+            }
+
+            res.render("customer-details.ejs", { customer: customerResult[0], orders: ordersResult, moment });
+        });
+    });
+});
+
+
 app.listen(port, () => {
     console.log(`Port: ${port} is online`);
 });
